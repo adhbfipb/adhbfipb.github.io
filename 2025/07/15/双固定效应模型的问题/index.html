@@ -1,0 +1,194 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>双固定效应模型的问题 | Hexo</title><meta name="author" content="TRna"><meta name="copyright" content="TRna"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="在了解完经典DID（2x2DID）和双固定效应模型后，我们就可以进一步来探索更加前沿、更加复杂的因果推断模型了。 首先我们要知道，为什么会出现更前沿、更复杂的因果推断模型。难道双固定模型和经典DID不好吗？ 经典DID很明显不好，因为它只能处理一个冲击的情况。如果我的政策实施是分批实现的呢？比如政策在2010年先在厦门实施，2015年在重庆实施，2020年在深圳实施，政策在不同的时间点实施，这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="双固定效应模型的问题">
+<meta property="og:url" content="http://example.com/2025/07/15/%E5%8F%8C%E5%9B%BA%E5%AE%9A%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在了解完经典DID（2x2DID）和双固定效应模型后，我们就可以进一步来探索更加前沿、更加复杂的因果推断模型了。 首先我们要知道，为什么会出现更前沿、更复杂的因果推断模型。难道双固定模型和经典DID不好吗？ 经典DID很明显不好，因为它只能处理一个冲击的情况。如果我的政策实施是分批实现的呢？比如政策在2010年先在厦门实施，2015年在重庆实施，2020年在深圳实施，政策在不同的时间点实施，这">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/avatar.jpg">
+<meta property="article:published_time" content="2025-07-15T14:30:08.000Z">
+<meta property="article:modified_time" content="2025-07-16T05:03:18.469Z">
+<meta property="article:author" content="TRna">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/avatar.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "双固定效应模型的问题",
+  "url": "http://example.com/2025/07/15/%E5%8F%8C%E5%9B%BA%E5%AE%9A%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%97%AE%E9%A2%98/",
+  "image": "http://example.com/img/avatar.jpg",
+  "datePublished": "2025-07-15T14:30:08.000Z",
+  "dateModified": "2025-07-16T05:03:18.469Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "TRna",
+      "url": "http://example.com"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2025/07/15/%E5%8F%8C%E5%9B%BA%E5%AE%9A%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%97%AE%E9%A2%98/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '双固定效应模型的问题',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-list"></i><span> categories</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/top_img.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Hexo</span></a><a class="nav-page-title" href="/"><span class="site-name">双固定效应模型的问题</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-list"></i><span> categories</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">双固定效应模型的问题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-07-15T14:30:08.000Z" title="Created 2025-07-15 22:30:08">2025-07-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-07-16T05:03:18.469Z" title="Updated 2025-07-16 13:03:18">2025-07-16</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>在了解完经典DID（2x2DID）和双固定效应模型后，我们就可以进一步来探索更加前沿、更加复杂的因果推断模型了。</p>
+<p>首先我们要知道，为什么会出现更前沿、更复杂的因果推断模型。难道双固定模型和经典DID不好吗？</p>
+<p>经典DID很明显不好，因为它只能处理一个冲击的情况。如果我的政策实施是分批实现的呢？比如政策在2010年先在厦门实施，2015年在重庆实施，2020年在深圳实施，政策在不同的时间点实施，这时候用2x2DID就不适用了。
+&gt; 这在中国尤其普遍，从政策试点城市到全国普遍推行。</p>
+<p>那么双固定效应模型有什么缺点呢？为何还要研究更前沿的因果推断方法呢？我们在这一个part做出介绍。</p>
+<h4
+id="q1强外生性假设究竟意味着什么">Q1：强外生性假设究竟意味着什么？</h4>
+<p>Imai &amp; Kim(2019) - 没有随时间变化的混淆变量 &gt; 混淆变量是什么？
+- 没有反馈效应 - 没有延续效应 - 没有预期效应（徐轶青老师提出）</p>
+<blockquote>
+<p>也就是经典双重差分的假设： - 平行趋势假设：在没有处理的情况下（即
+counterfactual world），处理组和控制组的变化趋势应该是一样的。 -
+可以排除时变混淆变量、反向因果和内生性问题 - 检验是否自选择 -
+SUTVA假设：无溢出效应，处理值是唯一的（你说“学生A参加了补习班”，那所有参加补习班的学生内容应该类似；如果有的学生补英语，有的补数学，那“处理”就不是唯一的）。
+-
+无预期效应假设：处理前没有“因果效应”（在政策真正生效前，被处理单位不会因为“预期到将来会处理”而提前趋势</p>
+</blockquote>
+<h4
+id="q2在有处理效应异质性的情况下双重固定效应估计量是否是到个体处理效应的凸组合加权平均">Q2：在有处理效应异质性的情况下，双重固定效应估计量是否是到个体处理效应的凸组合（加权平均）？</h4>
+<p>我们在讨论ATT时，希望得到的是个体处理效应的平均效应，而在有处理效应异质性的情况下双固定效应得到的估计量是个体处理效应的平均效应吗？
+&gt;
+处理效应异质性：对于每一个个体i，处理效应<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>β</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\beta_i</annotation></semantics></math>不同，即处理效应<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>是随机变量（
+你也可以理解成个体/时间特定的函数），不是一个常数。而在强外生性假设中，我们并未强调这一点。</p>
+<p>首先我们需要知道的是，双向固定效应估计量可以折解成2<em>2 DID
+的加权平均，即Bacon分解（Goodman-Bacon
+2021）。数学上证明大家可以看一看Bacon的这篇文章，下面我们来直观地理解一下：
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mrow><mi>i</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mi>α</mi><mi>i</mi></msub><mo>+</mo><msub><mi>γ</mi><mi>t</mi></msub><mo>+</mo><mi>β</mi><msub><mi>D</mi><mrow><mi>i</mi><mi>t</mi></mrow></msub><mo>+</mo><msub><mi>ϵ</mi><mrow><mi>i</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex"> Y_{it} = \alpha _i + \gamma _t +\beta D_{it} + \epsilon _{it} </annotation></semantics></math>
+其中，<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>α</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\alpha_i</annotation></semantics></math>是个体异质性，<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>γ</mi><mi>t</mi></msub><annotation encoding="application/x-tex">\gamma_t</annotation></semantics></math>是时间异质性，因为i,t随机组合，所以会产生一些”不合适“的2</em>2
+DID 组合。 - treated v.s. never treated - early treated v.s. later
+treated （处理前） - <span style="color:red;">later treated v.s. earlier
+treated（处理后）</span> 早处理组成为了晚处理组的对照组！！！ &gt;
+在异质性处理效应下，传统的双重固定效应（TWFE）估计量可能不再代表“平均处理效应”（ATE）或“处理组的平均处理效应”（ATT），而是某种加权平均，而这个权重有可能是负的。因为早处理组成为了晚处理组的对照组。也就是说，在满足了强外生性条件（或平行趋势）之后处理效应异质性仍然会导致估计量可能无法进行因果解释。</p>
+<p>正是因为这些问题，我们将在后面的一个post中介绍更好的异质性处理效应稳健的估计量。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://example.com">TRna</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://example.com/2025/07/15/%E5%8F%8C%E5%9B%BA%E5%AE%9A%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%97%AE%E9%A2%98/">http://example.com/2025/07/15/%E5%8F%8C%E5%9B%BA%E5%AE%9A%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%97%AE%E9%A2%98/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/07/16/%E5%BC%82%E8%B4%A8%E6%80%A7%E5%A4%84%E7%90%86%E6%95%88%E5%BA%94%E7%A8%B3%E5%81%A5%E4%BC%B0%E8%AE%A1%E9%87%8F/" title="异质性处理效应稳健估计量"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">异质性处理效应稳健估计量</div></div><div class="info-2"><div class="info-item-1">接下来我们将介绍异质性处理效应稳健的估计量。 首先看一下比较常见的几种实验设计， 静态随机分配（多见于生物学实验，所有单元在统一时间点随机分配到处理组、对照组）  交错分配Staggered DID（我们论文中最常见的，不同时间点分阶段进入处理组）  更一般的情况（不同时间点分阶段进入处理组，再在不同时间点分阶段退出处理组，有进入有退出）  在社会学实验中，我们见到的是第二种和第三种实验设计类型，针对不同的实验设计我们有不同的异质性处理效应稳健的估计量。 Q1：异质性处理效应稳健的估计量有哪些，都针对什么情形？ IW估计量（Sun &amp; Abraham(2021)）—— 针对交错分配的实验设计 交互加权（interaction Weighted, IW） 对照组：一直未接受处理的个体。若没有非处理组，则把最右边那列拿掉，构造出”非处理组“  CSDID估计量（Callaway &amp; Aant’Anna(2021)）—— 针对交错分配的实验设计 对照组：一直未接受处理的个体和还未接受处理的个体。相较于IW估计量而言，CSDID估计量拥有...</div></div></div></a><a class="pagination-related" href="/2025/07/14/%E5%8F%8C%E9%87%8D%E5%B7%AE%E5%88%86%E6%B3%95/" title="经典双重差分法（2X2双重差分法）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">经典双重差分法（2X2双重差分法）</div></div><div class="info-2"><div class="info-item-1">接下来我们就将正式进入双重差分法的研究，这是一个注重因果推断的方法，在这里你可以忘掉所有的经典计量经济学假设，并且见识好多不熟悉的名词，没有关系，我们将一一解释。 Q1：为什么会有双重差分法（理论前提）？ 这一部分可能有一点枯燥难懂，但我们尽量用通俗的语言去解释它。 潜在结果框架：    对于个体i，Yi(1)Y_i(1)和Yi(0)Y_i(0)代表接受这种处理或没有接受这种处理的潜在结果。我们可以观测到的有Yi,t=2(1)Y_{i,t=2}(1)、Yi,t=1(1)Y_{i,t=1}(1)、Yi,t=2(0)Y_{i,t=2}(0)、Yi,t=1(0)Y_{i,t=1}(0) 而我们需要的是ATT（处理效应），即求： 因果效应=Yit(1)−Yit(0) \boxed{\text{因果效应} = Y_{it}(1) - Y_{it}(0)}  &gt; 牢记这个公式！你会发现后面我们的公式越来越复杂，又有期望又有条件，但是本质都是这个公式，不过多加了一些限定，使得它从数理上来讲更严谨！ 问题在于我们无法在同一时间同一个体上既观测到$ Y_{it}(...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">TRna</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#q1%E5%BC%BA%E5%A4%96%E7%94%9F%E6%80%A7%E5%81%87%E8%AE%BE%E7%A9%B6%E7%AB%9F%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">Q1：强外生性假设究竟意味着什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#q2%E5%9C%A8%E6%9C%89%E5%A4%84%E7%90%86%E6%95%88%E5%BA%94%E5%BC%82%E8%B4%A8%E6%80%A7%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%E5%8F%8C%E9%87%8D%E5%9B%BA%E5%AE%9A%E6%95%88%E5%BA%94%E4%BC%B0%E8%AE%A1%E9%87%8F%E6%98%AF%E5%90%A6%E6%98%AF%E5%88%B0%E4%B8%AA%E4%BD%93%E5%A4%84%E7%90%86%E6%95%88%E5%BA%94%E7%9A%84%E5%87%B8%E7%BB%84%E5%90%88%E5%8A%A0%E6%9D%83%E5%B9%B3%E5%9D%87"><span class="toc-number">2.</span> <span class="toc-text">Q2：在有处理效应异质性的情况下，双重固定效应估计量是否是到个体处理效应的凸组合（加权平均）？</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/07/17/%E5%90%88%E6%88%90%E6%8E%A7%E5%88%B6%E6%B3%95%E5%8F%8A%E5%85%B6%E6%89%A9%E5%B1%95/" title="合成控制法（SCM）及其扩展">合成控制法（SCM）及其扩展</a><time datetime="2025-07-17T10:52:39.000Z" title="Created 2025-07-17 18:52:39">2025-07-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/07/16/%E5%BC%82%E8%B4%A8%E6%80%A7%E5%A4%84%E7%90%86%E6%95%88%E5%BA%94%E7%A8%B3%E5%81%A5%E4%BC%B0%E8%AE%A1%E9%87%8F/" title="异质性处理效应稳健估计量">异质性处理效应稳健估计量</a><time datetime="2025-07-16T05:03:41.000Z" title="Created 2025-07-16 13:03:41">2025-07-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/07/15/%E5%8F%8C%E5%9B%BA%E5%AE%9A%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%97%AE%E9%A2%98/" title="双固定效应模型的问题">双固定效应模型的问题</a><time datetime="2025-07-15T14:30:08.000Z" title="Created 2025-07-15 22:30:08">2025-07-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/07/14/%E5%8F%8C%E9%87%8D%E5%B7%AE%E5%88%86%E6%B3%95/" title="经典双重差分法（2X2双重差分法）">经典双重差分法（2X2双重差分法）</a><time datetime="2025-07-14T08:52:00.000Z" title="Created 2025-07-14 16:52:00">2025-07-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/07/06/My-First-Post/" title="固定效应模型">固定效应模型</a><time datetime="2025-07-06T09:19:18.000Z" title="Created 2025-07-06 17:19:18">2025-07-06</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2025 By TRna</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
